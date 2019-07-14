@@ -12,16 +12,23 @@ min(a + b) = ?
 
 N = int(input())
 
-# N = 5a + 3b
-# a + b = k
+# r[i] = 1 + min(r[i - 5], r[i - 3])
+r = [0, -1, -1, 1, -1, 1]
+i = len(r)
+while i <= N:
+    # TODO: 마지막 5 + 1개의 값만 들고 있으면 메모리를 절약할 수 있다.
+    # 하지만 코드는 좀 더 더러워질듯
+    a = r[i - 5]
+    b = r[i - 3]
+    if a != -1 and b != -1:
+        n = 1 + min(a, b)
+    elif a != -1:
+        n = 1 + a
+    elif b != -1:
+        n = 1 + b
+    else:
+        n = -1
+    r.append(n)
+    i += 1
 
-mink = None
-
-for a in range(N):
-    for b in range(N):
-        if 5 * a + 3 * b == N:
-            k = a + b
-            if mink is None or k < mink:
-                mink = k
-
-print(mink or -1)
+print(r[N])
