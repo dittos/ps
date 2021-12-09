@@ -37,28 +37,15 @@ fun basinSize(heightmap: List<List<Int>>, lowPointX: Int, lowPointY: Int): Int {
         MutableList(width) { false }
     }
     var size = 0
-    fun visit(x: Int, y: Int): Boolean {
-        if (heightmap[y][x] == 9) return false
-        if (visited[y][x]) return false
+    fun visit(x: Int, y: Int) {
+        if (heightmap[y][x] == 9) return
+        if (visited[y][x]) return
         visited[y][x] = true
         size++
-        // <-
-        for (x2 in (0 until x).reversed()) {
-            if (!visit(x2, y)) break
-        }
-        // ->
-        for (x2 in (x+1 until width)) {
-            if (!visit(x2, y)) break
-        }
-        // ^
-        for (y2 in (0 until y).reversed()) {
-            if (!visit(x, y2)) break
-        }
-        // v
-        for (y2 in (y+1 until height)) {
-            if (!visit(x, y2)) break
-        }
-        return true
+        if (x >= 1) visit(x - 1, y)
+        if (x < width - 1) visit(x + 1, y)
+        if (y >= 1) visit(x, y - 1)
+        if (y < height - 1) visit(x, y + 1)
     }
     visit(lowPointX, lowPointY)
     return size
